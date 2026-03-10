@@ -15,8 +15,13 @@ from googleapiclient.errors import HttpError
 
 import bcrypt
 import streamlit as st
-d_b = "users.db"
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
 
+if st.session_state.logged_in:
+    st.switch_page("pages/task.py")
+    
+d_b = "users.db"
 store={}
 
 def init_db(path=d_b):
@@ -251,7 +256,10 @@ with tab1:
                 hash = get_hash(email, d_b)
                 if hash:
                     if check_pass(password, get_hash(email, d_b)):
-                        st.switch_page("pages/page2.py")
+                        st.session_state.logged_in = True
+                        st.success("Login successful!")
+                        time.sleep(1)
+                        st.rerun()
                     else:
                         st.error("Wrong password")
 
@@ -262,7 +270,6 @@ with tab1:
                 st.write("NOTE YOUR PID: ")
                 st.write(PID)
                 time.sleep(10)
-                st.rerun(0)
 with tab2:
         st.subheader("Reset Your Password")
         email = st.text_input("Enter your email ", key="fp_email")
@@ -331,3 +338,6 @@ with tab3:
                         st.error("Wrong password or user not found")
             else:
                 st.error(" user not found ")
+
+if st.session_state.logged_in:
+    st.switch_page("pages/task.py")
