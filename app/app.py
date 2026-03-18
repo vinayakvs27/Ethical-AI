@@ -18,9 +18,6 @@ import streamlit as st
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
-if st.session_state.logged_in:
-    st.switch_page("pages/task.py")
-    
 d_b = "users.db"
 store={}
 
@@ -259,7 +256,7 @@ with tab1:
                         st.session_state.logged_in = True
                         st.success("Login successful!")
                         time.sleep(1)
-                        st.rerun()
+                        st.switch_page("pages/task.py")
                     else:
                         st.error("Wrong password")
 
@@ -338,6 +335,3 @@ with tab3:
                         st.error("Wrong password or user not found")
             else:
                 st.error(" user not found ")
-
-if st.session_state.logged_in:
-    st.switch_page("pages/task.py")
