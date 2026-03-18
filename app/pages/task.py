@@ -1,6 +1,8 @@
 import streamlit as st
 from pathlib import Path
-st.set_page_config(layout="wide")
+
+if "logged_in" not in st.session_state or not st.session_state.logged_in:
+    st.switch_page("app.py")
 
 st.markdown("<h1 style='text-align: center;'>Select Task</h1>", unsafe_allow_html=True)
 st.markdown("<h4 style='text-align: center;'>Choose the task you want to perform</h4>", unsafe_allow_html=True)
